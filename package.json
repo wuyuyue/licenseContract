@@ -1,0 +1,22 @@
+{
+  "name": "licenseContract",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "blockchain": "npx truffle develop",
+    "test": "npx truffle test",
+    "deploy": "deploy\\init.bat",
+    "update": "deploy\\update.bat"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^2.0.2",
+    "openzeppelin-zos": "^1.9.4",
+    "truffle": "^4.1.14"
+  },
+  "devDependencies": {}
+}
