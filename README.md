@@ -18,12 +18,16 @@ Here supply dapp for testing this contract, which  implement follow functions:
   5. international language (Chinese/English)
 
 
- ![image](https://raw.githubusercontent.com/wu2009/licenseContract/master/portal/images/introduction/login.png)
- ![image](https://raw.githubusercontent.com/wu2009/licenseContract/master/portal/images/introduction/home.png)
 
- try visit to experience/test the dapp contract
-  https://ipfs.io/ipfs/QmaMYzALCo7Nv6W947cRfdhxCCw9AjexGE7h5Jq4PZEC23
-  https://ipfs.infura.io/ipfs/QmaMYzALCo7Nv6W947cRfdhxCCw9AjexGE7h5Jq4PZEC23 (if blocked by this gateway)
+   ![image](https://raw.githubusercontent.com/wu2009/licenseContract/master/portal/images/introduction/login.png)
+
+   ![image](https://raw.githubusercontent.com/wu2009/licenseContract/master/portal/images/introduction/home.png)
+
+   try visit to experience/test the dapp contract
+
+      [IPFS gateway](https://ipfs.io/ipfs/QmaMYzALCo7Nv6W947cRfdhxCCw9AjexGE7h5Jq4PZEC23)
+
+      [IPFS gateway when blocked](https://ipfs.infura.io/ipfs/QmaMYzALCo7Nv6W947cRfdhxCCw9AjexGE7h5Jq4PZEC23)
 
 # contract method
 
