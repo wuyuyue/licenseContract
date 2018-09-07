@@ -6,3 +6,6 @@ npm-debug.log
 webpack.*.js
 zos.*.json
 zos.json
+/portal/
+truffle-config.js
+package*.json
