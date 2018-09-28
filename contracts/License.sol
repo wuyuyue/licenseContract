@@ -30,6 +30,9 @@ contract License is AppFactory {
     App storage app = apps[_appId];
     require(_licenseId >= 0 && _licenseId < app.licenseTypeNum);
     LicenseType storage license = app.toLicenseType[_licenseId];
+
+    // could not apply license already offlineAppLicense
+    require(license.offline==false);
     require(msg.value >= license.fee);
     appToOwner[_appId].transfer(license.fee);
     if(msg.value.sub(license.fee) > 0){
@@ -53,10 +56,9 @@ contract License is AppFactory {
       app.customersNum = app.customersNum.add(1);
       emit NewCustomer(now, msg.sender, _appId, _licenseId, license.fee, license.validateTime, licenseStartTime);
     }
-
   }
 
-  function getLicenseInfo(uint256 _appId) external view returns(bool isCustomer, uint256 licenseId,  uint256 licenseValidateTime, uint256 licenseStartTime, bool licenseValidate ){
+  function getLicenseInfo(uint256 _appId) external view returns(bool isCustomer, uint256 licenseId,   uint256 licenseValidateTime, uint256 licenseStartTime, bool licenseValidate ){
     uint256 customerId;
     (isCustomer, customerId) = aCustomer(_appId);
     if(isCustomer == true){
@@ -73,10 +75,7 @@ contract License is AppFactory {
       licenseStartTime = 0;
       licenseValidate = false;
     }
+  }
+  /* function () payable public {} */
 
-  }
-  function () payable public {}
-  function claim() external onlyOwner {
-      selfdestruct(msg.sender);
-  }
 }

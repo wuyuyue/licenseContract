@@ -16,8 +16,9 @@ contract('AppFactory', accounts => {
     if(appFactory==null){
       appFactory = await AppFactory.new();
       await appFactory.initialize(deployer);
+      await appFactory.setAppFee(0.01 * ether,{from: deployer});
       var a = await appFactory.appFee();
-      console.log(a);
+      console.log(a,"werewrewrewrewr");
     }
   });
 
@@ -66,11 +67,11 @@ contract('AppFactory', accounts => {
     it('get an app licenseList owned by yourself', async () => {
       const [ name,  licenseTypeNum, customersNum] = await appFactory.getAppBrief(0,{from: develop1});
       const [ licenseFees, licenseValidateTimes] = await appFactory.getAppLicenseList(0,{from: develop1});
-      const [ customerAddrs,customerLicenseIds, customerLicenseStartTimes ] = await appFactory.getAppCustomerList(0,{from: develop1});
+      // const [ customerAddrs,customerLicenseIds, customerLicenseStartTimes ] = await appFactory.getAppCustomerList(0,{from: develop1});
 
-      console.log(name,  licenseTypeNum.toNumber(),  customersNum.toNumber(), licenseFees, licenseValidateTimes, customerAddrs, customerLicenseIds, customerLicenseStartTimes );
+      // console.log(name,  licenseTypeNum.toNumber(),  customersNum.toNumber(), licenseFees, licenseValidateTimes, customerAddrs, customerLicenseIds, customerLicenseStartTimes );
        licenseTypeNum.toNumber().should.equal(licenseFees.length);
-       customersNum.toNumber().should.equal(customerAddrs.length);
+       // customersNum.toNumber().should.equal(customerAddrs.length);
     });
 
     it('contract pause/unpause control by admin', async () => {
@@ -94,7 +95,14 @@ contract('AppFactory', accounts => {
 
     });
 
-
+    it('the appowner could control cetain LicenseTypes online/offline', async () => {
+       var [ licenseFees, licenseValidateTimes, licenseOfflines] = await appFactory.getAppLicenseList(0,{from: develop1});
+       var preState = (licenseOfflines[0]);
+       await appFactory.setAppLicenseOnlineStates(0,[0],[true], {from: develop1});
+      [ licenseFees, licenseValidateTimes, licenseOfflines] = await appFactory.getAppLicenseList(0,{from: develop1});
+       var currentState = (licenseOfflines[0]);
+       preState.should.equal(!currentState);
+    });
   });
 
 });
