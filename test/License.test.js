@@ -19,11 +19,11 @@ contract('License', accounts => {
   let appId1 = null;
   let appId2 = null;
 
-  let licenseInfo = function(isCustomer,licenseId, licenseValidateTime, licenseStartTime, licenseValidate ){
+  let licenseInfo = function(isCustomer,licenseId, licenseValidateTime, licenseStartTime, licenseValidate, licenseOffline ){
     if(isCustomer==false){
       return "not a customer";
     }
-    var result = "is a customer with licenseId " + licenseId;
+    var result = "is a customer with licenseId" + licenseId +"[offline: "+licenseOffline +"]";
     if(licenseValidateTime == dayUnit * 365 * 100 ){
       result += "(license is long-term validate)";
 
@@ -47,6 +47,8 @@ contract('License', accounts => {
 
       license = await License.new();
       await license.initialize(deployer);
+      await license.setAppFee(0.01 * ether,{from: deployer});
+
       await Promise.all([
           license.createFreeApp("test1",{from: develop1,value: 0.01 * ether}),
           license.createApp("test2",[1 * ether, 2 * ether],[5 * dayUnit/ dayUnit, 1*dayUnit], {from: develop1,value: 1 * ether})
@@ -126,6 +128,22 @@ contract('License', accounts => {
       customersNum.toNumber().should.equal(customerAddrs.length);
     });
 
+    it('user could not apply license which is offline at given app ', async () => {
+
+      // var [isCustomer,licenseId, licenseValidateTime, licenseStartTime, licenseValidate, licenseOffline  ] = await license.getLicenseInfo(app2,{from: customer2});
+      // console.log(licenseInfo(isCustomer,licenseId, licenseValidateTime, licenseStartTime, licenseValidate, licenseOffline));
+      await license.setAppLicenseOnlineStates(app2,[1],[true], {from: develop1});
+      try {
+        await license.applyLicense(app2, 1, {from: customer2, value: 2 * ether});
+      } catch (error) {
+        console.log(error,"arwerewerw");
+        const revertFound = error.message.search('revert') >= 0;
+        assert(revertFound, `Expected "revert", got ${error} instead`);
+      }
+
+      // var [isCustomer,licenseId, licenseValidateTime, licenseStartTime, licenseValidate, licenseOffline  ] = await license.getLicenseInfo(app2,{from: customer2});
+      // console.log(licenseInfo(isCustomer,licenseId, licenseValidateTime, licenseStartTime, licenseValidate, licenseOffline));
+    });
 
 
   });
